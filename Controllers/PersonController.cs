@@ -11,6 +11,7 @@ namespace SensoryTask.Controller
     public class PersonController : ControllerBase
     {
         private readonly IPersonService _personService;
+
         public PersonController(IPersonService personService)
         {
             _personService = personService;
