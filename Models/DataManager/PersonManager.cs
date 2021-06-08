@@ -2,6 +2,7 @@
 using SensoryTask.Models.Repository;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 
 namespace SensoryTask.Models.DataManager
 {
@@ -24,7 +25,7 @@ namespace SensoryTask.Models.DataManager
         {
             return _context.Persons
                 .Include(p => p.Profession)
-                .FirstOrDefault(c => c.IdNumber == id);
+                .FirstOrDefault(c => c.PersonId == id);
         }
 
         public void Add(Person entity)
@@ -35,12 +36,21 @@ namespace SensoryTask.Models.DataManager
 
         public void Update(Person entity)
         {
-            throw new System.NotImplementedException();
+            var person = Get(entity.PersonId);
+
+            person.IdNumber = entity.IdNumber;
+            person.LastName = entity.LastName;
+            person.FirstName = entity.FirstName;
+            person.ProfessionId = entity.ProfessionId;
+
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var person = Get(id);
+            _context.Persons.Remove(person);
+            _context.SaveChanges();
         }
     }
 }

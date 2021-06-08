@@ -31,7 +31,17 @@ namespace SensoryTask
 
             services.AddScoped<IPersonService, PersonService>();
 
-            services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddMvc(option => option.EnableEndpointRouting = true);
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowAllOrigins",
+                    builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+            });
+
+            services.AddControllers().AddNewtonsoftJson();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -41,8 +51,8 @@ namespace SensoryTask
                 app.UseDeveloperExceptionPage();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCors("CorsPolicy");
+            //app.UseStaticFiles();
+            app.UseCors("AllowAllOrigins");
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.All
@@ -56,7 +66,6 @@ namespace SensoryTask
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseMvc();
 
             // Handles exceptions and generates a custom response body
             app.UseExceptionHandler("/errors/500");

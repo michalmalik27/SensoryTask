@@ -44,11 +44,26 @@ namespace SensoryTask.Controller
                 }
                 return Ok(person);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, new InternalServerError(ex.Message));
             }
         }
+
+        [HttpDelete("{id}", Name = "Delete")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                _personService.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new InternalServerError(ex.Message));
+            }
+        }
+
 
         [HttpPost]
         public IActionResult Post([FromBody] Person person)
@@ -61,10 +76,26 @@ namespace SensoryTask.Controller
                 }
 
                 _personService.Add(person);
-                return CreatedAtRoute(
-                      "Get",
-                      new { Id = person.PersonId },
-                      person);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new InternalServerError(ex.Message));
+            }
+        }
+
+        [HttpPut]
+        public IActionResult Put([FromBody] Person person)
+        {
+            try
+            {
+                if (person == null)
+                {
+                    return BadRequest(new BadRequestError("Person is null."));
+                }
+
+                _personService.Update(person);
+                return Ok();
             }
             catch (Exception ex)
             {

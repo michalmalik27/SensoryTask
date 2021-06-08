@@ -44,12 +44,18 @@ namespace SensoryTask.Services
 
         public void Update(Person person)
         {
-            throw new NotImplementedException();
+            if (!Validate(person, out ICollection<ValidationResult> results))
+                throw new Exception(string.Join("\n", results.Select(o => o.ErrorMessage)));
+
+            if (_professionRepository.Get(person.ProfessionId) == null)
+                throw new Exception("Profession not exists");
+
+            _personRepository.Update(person);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _personRepository.Delete(id);
         }
 
         static bool Validate<T>(T obj, out ICollection<ValidationResult> results)
