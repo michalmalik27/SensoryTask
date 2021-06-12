@@ -10,18 +10,18 @@ namespace SensoryTask.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PersonId { get; set; }
 
-        //[RegularExpression(@"^\d{9}$", ErrorMessage = "Id Number not valid")]
+        [RegularExpression(@"^\d{9}$", ErrorMessage = "Id Number not valid")]
         [Required(ErrorMessage = "ID Number is required")]
         public int IdNumber { get; set; }
 
-        //[RegularExpression(@"^[א-תa-zA-Z''-'\s]{1,20}$", ErrorMessage = "First name contains not allowed characters")]
+        [RegularExpression(@"^[א-תa-zA-Z''-'\s]{1,20}$", ErrorMessage = "First name contains not allowed characters")]
         [Required(ErrorMessage = "First name is required")]
-        //[StringLength(20, ErrorMessage = "First name can't be longer than 20 characters")]
+        [StringLength(20, ErrorMessage = "First name can't be longer than 20 characters")]
         public string FirstName { get; set; }
 
-        //[RegularExpression(@"^[א-תa-zA-Z''-'\s]{1,20}$", ErrorMessage = "Last name contains not allowed characters")]
+        [RegularExpression(@"^[א-תa-zA-Z''-'\s]{1,20}$", ErrorMessage = "Last name contains not allowed characters")]
         [Required(ErrorMessage = "Last name is required")]
-        // [StringLength(20, ErrorMessage = "Last name can't be longer than 20 characters")]
+        [StringLength(20, ErrorMessage = "Last name can't be longer than 20 characters")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Profession is required")]
